@@ -1,7 +1,6 @@
 -- ============================================================================
 -- Basic settings
 -- ============================================================================
-
 vim.opt.number = true
 vim.opt.expandtab = true
 vim.opt.shiftwidth = 4
@@ -10,10 +9,11 @@ vim.opt.tabstop = 4
 -- ============================================================================
 -- Python provider configuration
 -- ============================================================================
+-- Prepend Mason to PATH so Neovim finds the servers
+vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 
-vim.g.python3_host_prog = vim.fn.expand(
-  "~/.local/share/nvim/venv/neovim/bin/python"
-)
+-- Set your Python provider (your specific venv)
+vim.g.python3_host_prog = vim.fn.expand("$HOME/.local/share/nvim/venv/neovim/bin/python3")
 
 -- Optional: disable unused providers
 vim.g.loaded_node_provider = 0
@@ -50,9 +50,11 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup("plugins", {
-  defaults = { lazy = true },
-  install = { missing = true },
-  checker = { enabled = false },
-})
+-- Load core configurations
+require("core.keymaps")
 
+require("lazy").setup({
+  spec = {
+    { import = "plugins" }, -- This tells Lazy to look in lua/plugins/
+  },
+})
