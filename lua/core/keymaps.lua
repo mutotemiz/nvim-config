@@ -79,4 +79,10 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-------------------------------------------------------------------------------
+-- 7. File Explorer Mapping
+-------------------------------------------------------------------------------
+keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = "Explorer: [E]xplorer Toggle" })
+keymap.set('n', '<leader>ef', ':NvimTreeFindFile<CR>', { desc = "Explorer: [E]xplorer [F]ind Current File" })
+
 return {}
