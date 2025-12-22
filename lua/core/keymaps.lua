@@ -85,4 +85,13 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = "Explorer: [E]xplorer Toggle" })
 keymap.set('n', '<leader>ef', ':NvimTreeFindFile<CR>', { desc = "Explorer: [E]xplorer [F]ind Current File" })
 
+-------------------------------------------------------------------------------
+-- 8. Telescope (Leader + f for "Find")
+-------------------------------------------------------------------------------
+keymap.set('n', '<leader>ff', function() require('telescope.builtin').find_files() end, { desc = "Find: [F]iles" })
+keymap.set('n', '<leader>fg', function() require('telescope.builtin').live_grep() end, { desc = "Find: [G]rep text" })
+keymap.set('n', '<leader>fb', function() require('telescope.builtin').buffers() end, { desc = "Find: [B]uffers" })
+keymap.set('n', '<leader>fh', function() require('telescope.builtin').help_tags() end, { desc = "Find: [H]elp" })
+keymap.set('n', '<leader>fr', function() require('telescope.builtin').oldfiles() end, { desc = "Find: [R]ecent files" })
+
 return {}
