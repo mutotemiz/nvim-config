@@ -101,4 +101,11 @@ keymap.set('n', '<leader>fb', function() require('telescope.builtin').buffers() 
 keymap.set('n', '<leader>fh', function() require('telescope.builtin').help_tags() end, { desc = "Find: [H]elp" })
 keymap.set('n', '<leader>fr', function() require('telescope.builtin').oldfiles() end, { desc = "Find: [R]ecent files" })
 
+-------------------------------------------------------------------------------
+-- 9. Terminal (Leader + t for "Terminal")
+-------------------------------------------------------------------------------
+keymap.set('n', '<leader>th', '<cmd>ToggleTerm direction=horizontal<cr>', { desc = "Term: [T]erminal [H]orizontal" })
+keymap.set('n', '<leader>tv', '<cmd>ToggleTerm direction=vertical size=60<cr>', { desc = "Term: [T]erminal [V]ertical" })
+keymap.set('n', '<leader>tf', '<cmd>ToggleTerm direction=float<cr>', { desc = "Term: [T]erminal [F]loat" })
+
 return {}
