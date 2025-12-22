@@ -45,9 +45,16 @@ keymap.set('n', '<leader>dn', vim.diagnostic.goto_next, { desc = "Diag: [D]iagno
 keymap.set('n', '<leader>dp', vim.diagnostic.goto_prev, { desc = "Diag: [D]iagnostic [P]rev" })
 
 -------------------------------------------------------------------------------
--- 4. Buffer Management (Leader + b for "Buffer")
+-- 4. Buffer Management (Leader + b and Quick Nav)
 -------------------------------------------------------------------------------
-keymap.set('n', '<leader>bk', ':bd<CR>', { desc = "[B]uffer [K]ill" })
+-- Use Ctrl + Left/Right to switch between tabs (buffers)
+keymap.set('n', '<C-Left>', ':bprevious<CR>', { desc = "Buffer: Previous" })
+keymap.set('n', '<C-Right>', ':bnext<CR>', { desc = "Buffer: Next" })
+-- keymap.set('n', '<S-l>', ':bnext<CR>', { desc = "Buffer: Next" })
+-- keymap.set('n', '<S-h>', ':bprevious<CR>', { desc = "Buffer: Previous" })
+
+-- Existing Leader mappings
+keymap.set('n', '<leader>bq', ':bd<CR>', { desc = "[B]uffer [Q]uit (Close)" })
 keymap.set('n', '<leader>bn', ':bn<CR>', { desc = "[B]uffer [N]ext" })
 keymap.set('n', '<leader>bp', ':bp<CR>', { desc = "[B]uffer [P]revious" })
 
