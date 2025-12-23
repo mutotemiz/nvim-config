@@ -4,12 +4,22 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
       require("mason").setup()
+      
+      -- 1. LSP specific auto-install
       require("mason-lspconfig").setup({
         ensure_installed = { "basedpyright", "ruff" },
+      })
+      
+      -- 2. General Tool auto-install (Debuggers, Formatters, etc.)
+      require("mason-tool-installer").setup({
+        ensure_installed = {
+          "debugpy", 
+        },
       })
 
       local caps = require("cmp_nvim_lsp").default_capabilities()
