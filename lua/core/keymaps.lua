@@ -90,7 +90,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- 7. File Explorer Mapping
 -------------------------------------------------------------------------------
 keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = "Explorer: [E]xplorer Toggle" })
-keymap.set('n', '<leader>ef', ':NvimTreeFindFile<CR>', { desc = "Explorer: [E]xplorer [F]ind Current File" })
+keymap.set('n', '<leader>tf', ':NvimTreeFindFile<CR>', { desc = "Explorer: [E]xplorer [F]ind Current File" })
 
 -------------------------------------------------------------------------------
 -- 8. Telescope (Leader + f for "Find")
@@ -107,5 +107,18 @@ keymap.set('n', '<leader>fr', function() require('telescope.builtin').oldfiles()
 keymap.set('n', '<leader>th', '<cmd>ToggleTerm direction=horizontal<cr>', { desc = "Term: [T]erminal [H]orizontal" })
 keymap.set('n', '<leader>tv', '<cmd>ToggleTerm direction=vertical size=60<cr>', { desc = "Term: [T]erminal [V]ertical" })
 keymap.set('n', '<leader>tf', '<cmd>ToggleTerm direction=float<cr>', { desc = "Term: [T]erminal [F]loat" })
+
+-------------------------------------------------------------------------------
+-- 10. Debugger (Leader + d for "Debug")
+-------------------------------------------------------------------------------
+-- We wrap these in functions to prevent errors if DAP isn't loaded yet
+keymap.set('n', '<leader>db', function() require('dap').toggle_breakpoint() end, { desc = "Debug: Toggle [B]reakpoint" })
+keymap.set('n', '<leader>dc', function() require('dap').continue() end, { desc = "Debug: [C]ontinue / Start" })
+keymap.set('n', '<leader>di', function() require('dap').step_into() end, { desc = "Debug: Step [I]nto" })
+keymap.set('n', '<leader>do', function() require('dap').step_over() end, { desc = "Debug: Step [O]ver" })
+keymap.set('n', '<leader>du', function() require('dap').step_out() end, { desc = "Debug: Step [U]t" })
+keymap.set('n', '<leader>dt', function() require('dap').terminate() end, { desc = "Debug: [T]erminate" })
+keymap.set('n', '<leader>dr', function() require('dapui').toggle() end, { desc = "Debug: [R]epl / UI Toggle" })
+
 
 return {}
