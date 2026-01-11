@@ -12,6 +12,12 @@ return {
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
+      luasnip.config.set_config({
+  	-- This is the key: it stops snippets from overstaying their welcome
+  	region_check_events = "InsertEnter",
+  	delete_check_events = "InsertLeave",
+      })
+      
       local lspkind = require("lspkind")
 
       _G.has_words_before = function()

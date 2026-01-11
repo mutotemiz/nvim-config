@@ -49,6 +49,8 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Load core configurations
 require("core.keymaps")
+require("core.options")
+
 
 require("lazy").setup({
   spec = {
