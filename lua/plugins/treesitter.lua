@@ -7,7 +7,7 @@ return {
       -- Modern approach for v1.0+: call setup on the main module
       require("nvim-treesitter").setup({
         -- This list tells nvim-treesitter what to install/keep updated
-        ensure_installed = { "python", "lua", "vim", "vimdoc", "query", "markdown" },
+        ensure_installed = { "python", "lua", "vim", "vimdoc", "query", "markdown", "latex", "bibtex" },
         auto_install = true,
         
         highlight = {

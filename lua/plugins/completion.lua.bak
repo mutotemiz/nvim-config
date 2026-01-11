@@ -7,19 +7,11 @@ return {
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
       "onsails/lspkind.nvim",
-      "kdheepak/cmp-latex-symbols", -- Added for \alpha, \sum, etc.
     },
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
       local lspkind = require("lspkind")
-
-      -- Helper for Tab logic
-      _G.has_words_before = function()
-        unpack = unpack or table.unpack
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-      end
 
       cmp.setup({
         snippet = {
@@ -28,20 +20,20 @@ return {
           end,
         },
         
+        -- FIXED: Optimized formatting to prevent double icons
         formatting = {
-          fields = { "kind", "abbr", "menu" },
+          fields = { "kind", "abbr", "menu" }, -- Forces order: [Icon] [Name] [Source]
           format = lspkind.cmp_format({
-            mode = 'symbol',
+            mode = 'symbol', -- Only show icon in the 'kind' column
             maxwidth = 50,
             ellipsis_char = '...',
             show_labelDetails = true,
             before = function(entry, vim_item)
-              -- Update menu labels to include LaTeX sources
+              -- This ensures the "menu" (source name) looks clean
               vim_item.menu = ({
-                nvim_lsp      = "[LSP]",
-                luasnip       = "[Snippet]",
-                buffer        = "[Buffer]",
-                latex_symbols = "[Latex]",
+                nvim_lsp = "[LSP]",
+                luasnip  = "[Snippet]",
+                buffer   = "[Buffer]",
               })[entry.source.name]
               return vim_item
             end
@@ -49,6 +41,7 @@ return {
         },
 
         mapping = cmp.mapping.preset.insert({
+          -- TAB: Go Down / Next Snippet Placeholder
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
@@ -61,6 +54,7 @@ return {
             end
           end, { "i", "s" }),
 
+          -- SHIFT-TAB: Go Up / Previous Snippet Placeholder
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
@@ -71,26 +65,13 @@ return {
             end
           end, { "i", "s" }),
 
-          -- UPDATED: Use Replace behavior to ensure \alpha is inserted correctly
-          ["<CR>"] = cmp.mapping.confirm({ 
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true 
-          }),
-          
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
           ["<C-e>"] = cmp.mapping.abort(),
         }),
 
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "luasnip" },
-          { 
-            name = "latex_symbols", 
-            option = {
-              -- strategy 0 = inserts the LaTeX command (\alpha)
-              -- strategy 1 = inserts the unicode symbol (α)
-              strategy = 0, 
-            }
-          },
         }, {
           { name = "buffer" },
         }),
