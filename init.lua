@@ -15,14 +15,11 @@ vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 -- Set your Python provider (your specific venv)
 vim.g.python3_host_prog = vim.fn.expand("$HOME/.local/share/nvim/venv/neovim/bin/python3")
 
--- Optional: disable unused providers
+-- Disable unused providers
 vim.g.loaded_node_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 
--- ============================================================================
--- lazy.nvim bootstrap 
--- ============================================================================
 -- ============================================================================
 -- lazy.nvim bootstrap (self-installing)
 -- ============================================================================

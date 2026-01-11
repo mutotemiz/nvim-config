@@ -1,0 +1,22 @@
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      -- In v1.0+, we call setup directly on the main module
+      -- No more .configs!
+      require("nvim-treesitter").setup({
+        ensure_installed = { "python", "lua", "vim", "vimdoc", "query", "markdown" },
+        
+        highlight = {
+          enable = true,
+          -- This prevents clashes with BasedPyright semantic tokens
+          additional_vim_regex_highlighting = false,
+        },
+        
+        indent = { enable = true },
+      })
+    end,
+  },
+}

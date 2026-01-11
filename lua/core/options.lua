@@ -12,3 +12,5 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     vim.api.nvim_set_hl(0, "CursorVisual", { fg = "#24283b", bg = "#bb9af7" })
   end,
 })
+
+
