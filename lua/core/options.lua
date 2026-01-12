@@ -16,4 +16,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   end,
 })
 
-
+-- Folding options
+vim.opt.foldlevel = 99       -- Start with all folds open
+vim.opt.foldlevelstart = 99  -- Ensure new buffers also start with open folds
+vim.opt.foldcolumn = "1"     -- Optional: shows a small gutter to see where folds are
