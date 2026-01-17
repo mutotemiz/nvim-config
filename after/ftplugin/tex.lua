@@ -2,6 +2,8 @@
 vim.opt_local.spell = true      -- Enable spellcheck
 vim.opt_local.shiftwidth = 2    -- 2 spaces for LaTeX indents
 vim.opt_local.wrap = true       -- Enable soft wrap
+vim.opt_local.linebreak = true
+vim.opt_local.breakindent = true
 
 -- The folding logic
 vim.g.vimtex_fold_enabled = 1
