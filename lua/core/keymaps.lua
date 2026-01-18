@@ -2,9 +2,6 @@
 
 local keymap = vim.keymap
 
--- Set leader key to Space
-vim.g.mapleader = " "
-
 -------------------------------------------------------------------------------
 -- 1. LSP UI & Diagnostic Configuration
 -------------------------------------------------------------------------------
@@ -121,4 +118,4 @@ keymap.set('n', '<leader>dt', function() require('dap').terminate() end, { desc 
 keymap.set('n', '<leader>dr', function() require('dapui').toggle() end, { desc = "Debug: [R]epl / UI Toggle" })
 
 
-return {}
+return true
