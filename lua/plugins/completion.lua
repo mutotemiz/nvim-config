@@ -81,6 +81,14 @@ return {
         --------------------------------------------------------------------
 
         mapping = cmp.mapping.preset.insert({
+          ["<Esc>"] = cmp.mapping(function(fallback)
+    	    if cmp.visible() then
+              cmp.abort() -- This closes the menu
+            else
+              fallback()   -- If menu is closed, Esc behaves normally (goes to Normal Mode)
+           end
+         end, { "i", "s" }),
+         
           ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
