@@ -12,7 +12,7 @@ return {
       
       -- 1. LSP specific auto-install
       require("mason-lspconfig").setup({
-        ensure_installed = { "basedpyright", "ruff" },
+        ensure_installed = { "basedpyright", "ruff", "texlab" },
       })
       
       -- 2. General Tool auto-install (Debuggers, Formatters, etc.)
@@ -25,7 +25,6 @@ return {
       local caps = require("cmp_nvim_lsp").default_capabilities()
       
       -- We switch to UTF-16 because BasedPyright is hardcoded for it.
-      -- This makes Ruff and BasedPyright agree, which clears the warning.
       caps.offsetEncoding = { "utf-16" }
       caps.general = { positionEncodings = { "utf-16" } }
 
@@ -51,10 +50,28 @@ return {
           client.server_capabilities.diagnosticProvider = false
         end,
       })
+      
+      -- 3. Configure Texlab (LaTeX)
+      vim.lsp.config("texlab", {
+        cmd = { "texlab" },
+        filetypes = { "tex", "bib" },
+        capabilities = caps,
+        settings = {
+          texlab = {
+            build = {
+              onSave = true, -- Automatically build PDF on save
+            },
+            diagnostics = {
+              delay = 300,
+            }
+          }
+        }
+      })
 
-      -- 3. Enable the servers
+      -- 4. Enable the servers
       vim.lsp.enable("basedpyright")
       vim.lsp.enable("ruff")
+      vim.lsp.enable("texlab")
     end,
   },
 }
