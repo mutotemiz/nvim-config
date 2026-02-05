@@ -1,4 +1,4 @@
-vim.opt.timeoutlen = 300 -- Set to 300ms for snappier response
+vim.opt.timeoutlen = 500 -- Set to 300ms for snappier response
 vim.opt.termguicolors = true
 vim.opt.scrolloff = 10
 vim.opt.sidescrolloff = 5
