@@ -12,6 +12,7 @@ return {
       
       -- 1. LSP specific auto-install
       require("mason-lspconfig").setup({
+        -- texlab added for openSUSE LaTeX support
         ensure_installed = { "basedpyright", "ruff", "texlab" },
       })
       
@@ -19,34 +20,46 @@ return {
       require("mason-tool-installer").setup({
         ensure_installed = {
           "debugpy", 
-          "tree-sitter-cli",
+          "tree-sitter-cli", -- Useful for parsing errors we fixed earlier
         },
       })
 
       local caps = require("cmp_nvim_lsp").default_capabilities()
       
-      -- We switch to UTF-16 because BasedPyright is hardcoded for it.
+      -- UTF-16 encoding to keep BasedPyright and Ruff in sync
       caps.offsetEncoding = { "utf-16" }
       caps.general = { positionEncodings = { "utf-16" } }
 
-      -- 1. Configure BasedPyright
+      -- 1. Configure BasedPyright (Python)
       vim.lsp.config("basedpyright", {
         cmd = { "basedpyright-langserver", "--stdio" },
         filetypes = { "python" },
         capabilities = caps,
         settings = {
-          python = {
-            pythonPath = vim.g.python3_host_prog,
+          basedpyright = {
+            analysis = {
+              -- Disabling the strict diagnostic rules to simplify the errpr and warnings
+              diagnosticSeverityOverrides = {
+                reportImplicitRelativeImport = "none",
+                reportUnknownArgumentType = "none",
+                reportUnknownMemberType = "none",
+                reportUnknownVariableType = "none",
+              },
+              pythonPath = vim.g.python3_host_prog,
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "openFilesOnly",
+            },
           },
         },
       })
 
-      -- 2. Configure Ruff
+      -- 2. Configure Ruff (Python Linter)
       vim.lsp.config("ruff", {
         cmd = { "ruff", "server" },
         filetypes = { "python" },
         capabilities = caps,
-        -- Disable diagnostics from Ruff so only BasedPyright shows errors
+        -- Disable diagnostics from Ruff so they don't double-up with Pyright
         on_attach = function(client)
           client.server_capabilities.diagnosticProvider = false
         end,
@@ -60,7 +73,7 @@ return {
         settings = {
           texlab = {
             build = {
-              onSave = true, -- Automatically build PDF on save
+              onSave = true, -- Auto-build PDF on save
             },
             diagnostics = {
               delay = 300,
