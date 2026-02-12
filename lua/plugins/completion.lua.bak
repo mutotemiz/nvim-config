@@ -39,39 +39,44 @@ return {
         --------------------------------------------------------------------
         -- MERGED FORMATTING BLOCK (this is the part you asked for)
         --------------------------------------------------------------------
-				formatting = {
-					fields = { "abbr", "kind", "menu" },  -- word first, icon second
-					format = function(entry, vim_item)
-						-- Fix latex_symbols inserting BOTH \alpha and α
-						if entry.source.name == "latex_symbols" then
-							local label = entry.completion_item.label
-							local clean_label = label:match("(\\%a+)")
-							if clean_label then
-								vim_item.abbr = clean_label
-								entry.completion_item.insertText = clean_label
-								if entry.completion_item.textEdit then
-								  entry.completion_item.textEdit.newText = clean_label
-								end
-							end
-						end
+        formatting = {
+		  fields = { "kind", "abbr", "menu" },
+		  format = function(entry, vim_item)
+			-- Fix latex_symbols inserting BOTH \alpha and α
+			if entry.source.name == "latex_symbols" then
+			  local label = entry.completion_item.label
+			  
+			  -- Use a Lua pattern to grab only the LaTeX command (the part starting with \)
+			  -- This removes the trailing space and unicode symbol
+			  local clean_label = label:match("(\\%a+)")
+			  
+			  if clean_label then
+				vim_item.abbr = clean_label -- Clean the display name
+				entry.completion_item.insertText = clean_label -- Clean the actual insertion
+				
+				if entry.completion_item.textEdit then
+				  entry.completion_item.textEdit.newText = clean_label
+				end
+			  end
+			end
 
-						return require("lspkind").cmp_format({
-							mode = "symbol_text",   -- <-- THIS is the key
-							preset = "codicons",    -- <-- ensures icons match Nerd Font
-							maxwidth = 50,
-							ellipsis_char = "...",
-							before = function(entry, vim_item)
-								vim_item.menu = ({
-								  nvim_lsp      = "[LSP]",
-								  luasnip       = "[Snippet]",
-								  buffer        = "[Buffer]",
-								  latex_symbols = "[Latex]",
-								})[entry.source.name]
-								return vim_item
-							end,
-						})(entry, vim_item)
-					end,
-				},
+			return lspkind.cmp_format({
+			  mode = "symbol",
+			  maxwidth = 50,
+			  ellipsis_char = "...",
+			  show_labelDetails = true,
+			  before = function(entry, vim_item)
+				vim_item.menu = ({
+				  nvim_lsp      = "[LSP]",
+				  luasnip       = "[Snippet]",
+				  buffer        = "[Buffer]",
+				  latex_symbols = "[Latex]",
+				})[entry.source.name]
+				return vim_item
+			  end,
+			})(entry, vim_item)
+		  end,
+		},
 
         --------------------------------------------------------------------
 
